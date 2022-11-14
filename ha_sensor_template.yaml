@@ -1,5 +1,4 @@
 mqtt:
-  # broker: 10.0.0.5
   sensor:
     - state_topic: "home_assistant/ham_radio/bm_lh_feed/callsign"
       name: "Callsign"

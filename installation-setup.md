@@ -16,7 +16,7 @@
 
 ### Installing the Script
 
-The first stepis installing the needed packages, cloning the repo to get the script and then installing the needed libraries for the script to work properly.
+The first step is installing the needed packages, cloning the repo to get the script and then installing the needed libraries for the script to work properly.
 
 This is probably the easiest step to accomplish.
 
@@ -58,6 +58,7 @@ mqtt_base_topic = 'home_assistant/ham_radio/bm_lh_feed/' # this is the base topi
 ```
 
 Each section below that contains what is needed for each service to operate.
+
 ---
 
 ## Running the Script

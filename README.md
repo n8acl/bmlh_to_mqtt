@@ -13,7 +13,7 @@ This script is for use by Amateur Radio Operators Only.
 
 ## Installation/Setup Instructions
 
-[Click here to see the installation and setup steps](https://github.com/n8acl/bm_monitor/blob/master/installation-setup.md). Then come back here. This is a bit of a long document, so read it all carefully.
+[Click here to see the installation and setup steps](https://github.com/n8acl/bmlh_to_mqtt/blob/main/installation-setup.md). Then come back here. This is a bit of a long document, so read it all carefully.
 
 ---
 ## Contact
