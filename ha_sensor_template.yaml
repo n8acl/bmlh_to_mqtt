@@ -1,0 +1,16 @@
+mqtt:
+  # broker: 10.0.0.5
+  sensor:
+    - state_topic: "home_assistant/ham_radio/bm_lh_feed/callsign"
+      name: "Callsign"
+      icon: "mdi:radio-handheld"
+    - state_topic: "home_assistant/ham_radio/bm_lh_feed/talkgroup"
+      name: "TalkGroup"
+      icon: "mdi:radio-handheld"
+    - state_topic: "home_assistant/ham_radio/bm_lh_feed/start_time"
+      name: "Start-Time"
+      icon: "mdi:radio-handheld"
+    - state_topic: "home_assistant/ham_radio/bm_lh_feed/stop_time"
+      name: "Stop-Time"
+      icon: "mdi:radio-handheld"
+
