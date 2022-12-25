@@ -1,3 +1,22 @@
+#################################################################################
+
+# Brandmeister Last Heard to MQTT 
+# Develped by: Michael Clemens, DK1MI
+# Refactored by: Jeff Lehman, N8ACL
+# Current Version: 1.1
+# Original Script: https://codeberg.org/mclemens/pyBMNotify
+# Repo: https://github.com/n8acl/bmlh_to_mqtt
+
+# Questions? Comments? Suggestions? Contact me one of the following ways:
+# E-mail: n8acl@qsl.net
+# Twitter: @n8acl
+# Discord: Ravendos#7364
+# Mastodon: @n8acl@mastodon.radio
+# Website: https://www.qsl.net/n8acl
+
+###################   DO NOT CHANGE BELOW   #########################
+
+
 # pip3 uninstall socketIO_client
 # pip3 install "python-socketio[client]"
 
@@ -46,43 +65,45 @@ def on_mqtt(data):
     notify = False
     now = int(time.time())
 
-    # check if callsign is monitored, the transmission has already been finished
-    # and the person was inactive for n seconds
-    if callsign in cfg.callsigns:
-        if callsign not in last_OM_activity:
-            last_OM_activity[callsign] = 9999999
-        inactivity = now - last_OM_activity[callsign]
-        if callsign not in last_OM_activity or inactivity >= cfg.min_silence:
-            # If the activity has happened in a monitored TG, remember the transmission start time stamp
-            if tg in cfg.talkgroups and stop_time > 0:
-                last_TG_activity[tg] = now
-            # remember the transmission time stamp of this particular DMR user
-            last_OM_activity[callsign] = now
-            notify = True
-    # Continue if the talkgroup is monitored, the transmission has been
-    # finished and there was no activity during the last n seconds in this talkgroup
-    elif tg in cfg.talkgroups and stop_time > 0:# and callsign not in cfg.noisy_calls:
-        if tg not in last_TG_activity:
-            last_TG_activity[tg] = 9999999
-        inactivity = now - last_TG_activity[tg]
-        # calculate duration of key down
-        duration = stop_time - start_time
-        # only proceed if the key down has been long enough
-        if duration >= cfg.min_duration:
-            if tg not in last_TG_activity or inactivity >= cfg.min_silence:
-                notify = True
-            elif cfg.verbose:
-                print("ignored activity in TG " + str(tg) + " from " + callsign + ": last action " + str(inactivity) + " seconds ago.")
-            last_TG_activity[tg] = now
     if cfg.verbose and callsign in cfg.noisy_calls:
         print("ignored noisy ham " + callsign)
+    
+    else:
+        # check if callsign is monitored, the transmission has already been finished
+        # and the person was inactive for n seconds
+        if callsign in cfg.callsigns:
+            if callsign not in last_OM_activity:
+                last_OM_activity[callsign] = 9999999
+            inactivity = now - last_OM_activity[callsign]
+            if callsign not in last_OM_activity or inactivity >= cfg.min_silence:
+                # If the activity has happened in a monitored TG, remember the transmission start time stamp
+                if tg in cfg.talkgroups and stop_time > 0:
+                    last_TG_activity[tg] = now
+                # remember the transmission time stamp of this particular DMR user
+                last_OM_activity[callsign] = now
+                notify = True
+        # Continue if the talkgroup is monitored, the transmission has been
+        # finished and there was no activity during the last n seconds in this talkgroup
+        elif tg in cfg.talkgroups and stop_time > 0:# and callsign not in cfg.noisy_calls:
+            if tg not in last_TG_activity:
+                last_TG_activity[tg] = 9999999
+            inactivity = now - last_TG_activity[tg]
+            # calculate duration of key down
+            duration = stop_time - start_time
+            # only proceed if the key down has been long enough
+            if duration >= cfg.min_duration:
+                if tg not in last_TG_activity or inactivity >= cfg.min_silence:
+                    notify = True
+                elif cfg.verbose:
+                    print("ignored activity in TG " + str(tg) + " from " + callsign + ": last action " + str(inactivity) + " seconds ago.")
+                last_TG_activity[tg] = now
 
-    ## Publish to MQTT Topics
-    if notify:
-        publish.single(cfg.mqtt_base_topic + "callsign",callsign,hostname=cfg.mqtt_broker,port=cfg.mqtt_port)
-        publish.single(cfg.mqtt_base_topic + "talkgroup",tg,hostname=cfg.mqtt_broker,port=cfg.mqtt_port)
-        publish.single(cfg.mqtt_base_topic + "start_time",start_time,hostname=cfg.mqtt_broker,port=cfg.mqtt_port)
-        publish.single(cfg.mqtt_base_topic + "stop_time",stop_time,hostname=cfg.mqtt_broker,port=cfg.mqtt_port)    
+        ## Publish to MQTT Topics
+        if notify:
+            publish.single(cfg.mqtt_base_topic + "callsign",callsign,hostname=cfg.mqtt_broker,port=cfg.mqtt_port)
+            publish.single(cfg.mqtt_base_topic + "talkgroup",tg,hostname=cfg.mqtt_broker,port=cfg.mqtt_port)
+            publish.single(cfg.mqtt_base_topic + "start_time",start_time,hostname=cfg.mqtt_broker,port=cfg.mqtt_port)
+            publish.single(cfg.mqtt_base_topic + "stop_time",stop_time,hostname=cfg.mqtt_broker,port=cfg.mqtt_port)    
 
 @sio.event
 def disconnect():

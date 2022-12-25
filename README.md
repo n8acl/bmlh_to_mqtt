@@ -32,4 +32,6 @@ If you reach out to me and have an error, please include what error you are gett
 
 ## Change Log
 
+* 12/25/2022 - Minor Release 1.1 - Fixes Noisy Call logic
+
 * 11/14/2022 - Inital Release
