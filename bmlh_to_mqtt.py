@@ -3,14 +3,13 @@
 # Brandmeister Last Heard to MQTT 
 # Develped by: Michael Clemens, DK1MI
 # Refactored by: Jeff Lehman, N8ACL
-# Current Version: 1.1
+# Current Version: 1.2
 # Original Script: https://codeberg.org/mclemens/pyBMNotify
 # Repo: https://github.com/n8acl/bmlh_to_mqtt
 
 # Questions? Comments? Suggestions? Contact me one of the following ways:
 # E-mail: n8acl@qsl.net
-# Twitter: @n8acl
-# Discord: Ravendos#7364
+# Discord: Ravendos
 # Mastodon: @n8acl@mastodon.radio
 # Website: https://www.qsl.net/n8acl
 
@@ -68,7 +67,7 @@ def on_mqtt(data):
     if cfg.verbose and callsign in cfg.noisy_calls:
         print("ignored noisy ham " + callsign)
     
-    else:
+    elif event == 'Session-Stop' and callsign != '':
         # check if callsign is monitored, the transmission has already been finished
         # and the person was inactive for n seconds
         if callsign in cfg.callsigns:
