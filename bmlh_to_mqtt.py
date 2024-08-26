@@ -3,7 +3,7 @@
 # Brandmeister Last Heard to MQTT 
 # Develped by: Michael Clemens, DK1MI
 # Refactored by: Jeff Lehman, N8ACL
-# Current Version: 1.2
+# Current Version: 1.3
 # Original Script: https://codeberg.org/mclemens/pyBMNotify
 # Repo: https://github.com/n8acl/bmlh_to_mqtt
 
@@ -61,6 +61,7 @@ def on_mqtt(data):
     callsign = call["SourceCall"]
     start_time = call["Start"]
     stop_time = call["Stop"]
+    event = call["Event"]
     notify = False
     now = int(time.time())
 
